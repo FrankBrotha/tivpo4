@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои отзывы{% endblock %}
+{% block style %}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f4ff;
+  margin: 0;
+  padding: 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+th {
+  background-color: #1E5945; /* Зелёный цвет заголовка таблицы */
+  color: white;
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2; /* Чередующиеся цвета строк */
+}
+tr:hover {
+  background-color: #ddd; /* Цвет строки при наведении */
+}
+h1 {
+  color: #003366; /* Цвет заголовка */
+}
+/* Ограничиваем ширину колонки "Текст отзыва" */
+td.review-text {
+  max-width: 200px; /* Устанавливаем максимальную ширину */
+  white-space: normal; /* Разрешаем перенос строк */
+  word-wrap: break-word; /* Переносим длинные слова */
+}
+
+/* Стили для кнопки */
+.bookbutton {
+  background: none;
+  color: #1E5945; /* Цвет текста кнопки в стиле заголовка */
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.bookbutton:hover {
+  color: #279b73; /* Более яркий зеленый цвет при наведении */
+  text-decoration: none;
+}
+{% endblock %}
+{% block content %}
+<h1>Мои Отзывы</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Номер комнаты</th>
+                <th>Дата начала брони</th>
+                <th>Дата конца брони</th>
+                <th>Количество ночей</th>
+                <th>Оценка</th>
+                <th>Текст отзыва</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in review_list %}
+            <tr>
+                <td>{{ review[0] }}</td>
+                <td>{{ review[1] }}</td>
+                <td>{{ review[2] }}</td>
+                <td>{{ review[3] }}</td>
+                <td>{{ review[4] }}</td>
+                <td class="review-text">{{ review[5] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

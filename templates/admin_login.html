@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4ff; /* Светлый фон */
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #003366; /* Темно-синий заголовок */
+        }
+        form {
+            background-color: #ffffff; /* Белый фон формы */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        p {
+            margin: 15px 0;
+        }
+        label {
+            font-weight: bold;
+            color: #003366; /* Темно-синие метки */
+        }
+        input[type="text"], input[type="password"] {
+            width: 80%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #007bff; /* Синяя рамка */
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #007bff; /* Синяя кнопка */
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3; /* Более темный синий при наведении */
+        }
+        .error {
+            color: red; /* Красный цвет для ошибок */
+        }
+        .success {
+            color: blue; /* Синий цвет для успешных сообщений */
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    {% include 'button.html' %}
+    <h1>Авторизация</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}<br>
+            {% for error in form.username.errors %}
+                <span class="error">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+                <span class="error">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.submit() }}
+        </p>
+    </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

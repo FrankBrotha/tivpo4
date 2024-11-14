@@ -1,0 +1,92 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Таблица админов{% endblock %}
+{% block style %}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f4ff;
+  margin: 0;
+  padding: 20px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+th {
+    background-color: #003366;
+    color: white;
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2; /* Чередующиеся цвета строк */
+}
+tr:hover {
+  background-color: #ddd; /* Цвет строки при наведении */
+}
+h1 {
+  color: #1E5945; /* Цвет заголовка */
+}
+
+/* Стили для кнопки */
+/* Стили для кнопки */
+.editbutton {
+  background: none;
+  color: #007bff;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.editbutton:hover {
+  color: #0056b3;
+  text-decoration: none;
+}
+.btn {
+    color: #fff;
+    background-color: #28a745; /* Зеленый цвет */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #218838; /* Темно-зеленый оттенок при наведении */
+}
+{% endblock %}
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1>Таблица админов</h1>
+    <a href="/admin/admins/create" class="btn">Добавить запись</a>
+</div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Имя пользователя</th>
+                <th>Пароль</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for admin in admins %}
+            <tr>
+                <td>{{ admin.id }}</td>
+                <td>{{ admin.username }}</td>
+                <td>{{ admin.password }}</td>
+
+                <td><a href="/admin/admins/edit/{{admin.id}}" class="editbutton">Изменить</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

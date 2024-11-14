@@ -1,0 +1,108 @@
+<!-- templates/auth/login.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация пользователя</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 20px 40px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #333;
+        }
+
+
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .alert-danger {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+        .alert-success  {
+            color: green;
+            font-size: 14px;
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'button.html' %}
+    <div class="login-container">
+        <h2>Вход для пользователя</h2>
+
+        <!-- Отображение сообщений об ошибках -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        <p>{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Форма авторизации -->
+        <form method="POST" action="{{ url_for('login') }}">
+            {{ form.hidden_tag() }}
+
+            <label for="email">Email</label>
+            {{ form.email(size=32, id="email") }}
+
+            <label for="password">Пароль</label>
+            {{ form.password(size=32, id="password") }}
+
+            {{ form.submit(class_="submit-btn") }}
+        </form>
+    </div>
+</body>
+</html>

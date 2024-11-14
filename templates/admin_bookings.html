@@ -1,0 +1,98 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Таблица аренд{% endblock %}
+{% block style %}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f4ff;
+  margin: 0;
+  padding: 20px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+th {
+    background-color: #003366;
+    color: white;
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2; /* Чередующиеся цвета строк */
+}
+tr:hover {
+  background-color: #ddd; /* Цвет строки при наведении */
+}
+h1 {
+  color: #003366; /* Цвет заголовка */
+}
+
+/* Стили для кнопки */
+.editbutton {
+  background: none;
+  color: #007bff;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.editbutton:hover {
+  color: #0056b3;
+  text-decoration: none;
+}
+.btn {
+    color: #fff;
+    background-color: #28a745; /* Зеленый цвет */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #218838; /* Темно-зеленый оттенок при наведении */
+}
+{% endblock %}
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1>Таблица аренд</h1>
+    <a href="/admin/bookings/create" class="btn">Добавить запись</a>
+</div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ID пользователя</th>
+                <th>ID комнаты</th>
+                <th>Дата начала аренды</th>
+                <th>Дата конца аренды</th>
+                <th>Ночи</th>
+                <th>Конечная сумма</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in bookings %}
+            <tr>
+                <td>{{ book.id }}</td>
+                <td>{{ book.userid }}</td>
+                <td>{{ book.roomid }}</td>
+                <td>{{ book.startdate }}</td>
+                <td>{{ book.enddate }}</td>
+                <td>{{ nights[book.id-1] }}</td>
+                <td>{{ book.totalprice }}</td>
+                <td><a href="/admin/bookings/edit/{{book.id}}" class="editbutton">Изменить</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

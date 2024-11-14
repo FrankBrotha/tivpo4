@@ -1,0 +1,173 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Создать{% endblock %}
+
+{% block content %}
+<div class="booking-container">
+    <div class="booking-form">
+        <h1>Ввод данных</h1>
+
+        <form method="POST" action="{{ url_for('admin_rooms_create') }}">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.id.label }}<br>
+                {{ form.id }}
+            </div>
+
+            <div class="form-group">
+                {{ form.roomtype.label }}<br>
+                {{ form.roomtype }}
+            </div>
+
+            <div class="form-group">
+                {{ form.roomnumber.label }}<br>
+                {{ form.roomnumber }}
+            </div>
+            <div class="form-group">
+                {{ form.floor.label }}<br>
+                {{ form.floor }}
+            </div>
+            <div class="form-group">
+                {{ form.hastv.label }}<br>
+                {{ form.hastv }}
+            </div>
+            <div class="form-group">
+                {{ form.haswifi.label }}<br>
+                {{ form.haswifi }}
+            </div>
+            <div class="form-group">
+                {{ form.hasminibar.label }}<br>
+                {{ form.hasminibar }}
+            </div>
+            <div class="form-group">
+                {{ form.pricepernight.label }}<br>
+                {{ form.pricepernight }}
+            </div>
+            <div class="form-group">
+                {{ form.capacity.label }}<br>
+                {{ form.capacity }}
+            </div>
+           <button type="submit" class="btn btn-primary">Создать</button>
+        </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for category, message in messages %}
+            <li class="alert alert-{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+    </div>
+</div>
+{% endblock %}
+
+{% block style %}
+.booking-container {
+display: flex;
+justify-content: space-between;
+}
+
+.booking-form, .booking-info {
+width: 45%;
+padding: 20px;
+border: 1px solid #ddd;
+border-radius: 8px;
+background-color: #f9f9f9;
+}
+
+.form-group {
+margin-bottom: 1rem;
+}
+
+.btn {
+background-color: #007bff;
+color: white;
+border: none;
+padding: 10px 15px;
+cursor: pointer;
+border-radius: 4px;
+font-size: 1rem;
+}
+
+.btn:hover {
+background-color: #0056b3;
+}
+
+.date-input {
+padding: 8px;
+width: 100%;
+box-sizing: border-box;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+
+.booking-info h3 {
+margin-top: 0;
+}
+
+/* Добавляем отступы между сообщениями */
+.flash-messages {
+    list-style: none;
+    padding: 0;
+    margin: 10p;
+}
+
+.flash-messages li {
+    margin-bottom: 10px; /* Отступ между сообщениями */
+    padding: 10px;  /* Немного пространства вокруг текста сообщения */
+    border-radius: 4px; /* Закругление углов */
+    border: 1px solid #ddd; /* Легкая граница */
+}
+
+/* Для разных типов сообщений (success, danger) можно задать уникальные стили */
+.flash-messages .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.flash-messages .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.date-info {
+list-style: none;
+padding: 0;
+}
+
+.date-info li {
+padding: 4px 0;
+}
+
+
+/* Стили полей ввода */
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="checkbox"],
+.form-group input[type="submit"] {
+width: 80%;
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+font-size: 1rem;
+}
+
+/* Стили для BooleanField (флажки) */
+.form-group input[type="checkbox"] {
+width: auto;
+margin-right: 10px;
+cursor: pointer;
+}
+.button-delete {
+background-color: #dc3545;
+margin-top: auto;
+text-decoration: none;
+}
+.button-delete:hover {
+background-color: #c82333;
+}
+/* Новый стиль для контейнера кнопок */
+{% endblock %}

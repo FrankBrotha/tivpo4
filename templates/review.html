@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Оставить отзыв{% endblock %}
+
+{% block content %}
+    <div class="review-container">
+        <div class="review-form">
+            <h1>Оставить отзыв на номер {{ roomnumber }}</h1>
+            <form method="POST" action="{{ url_for('review', bookid=bookid) }}">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    {{ form.rating.label }}<br>
+                    {{ form.rating(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.reviewtext.label }}<br>
+                    {{ form.reviewtext(class="form-control", rows=4) }}
+                </div>
+                <p>{{ form.submit(class="btn btn-primary") }}</p>
+            </form>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flash-messages">
+                        {% for category, message in messages %}
+                            <li class="alert alert-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block style %}
+    .review-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .review-form, .review-info {
+        width: 45%;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .btn {
+        background-color: #3B8A6C;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .btn:hover {
+        background-color: #4DAF7C;
+    }
+
+    .alert {
+        padding: 10px;
+        border-radius: 4px;
+    }
+
+    .alert-danger {
+        color: red;
+        background-color: #f2dede;
+    }
+
+    .alert-success {
+        color: green;
+        background-color: #dff0d8;
+    }
+
+    .review-info h3 {
+        margin-top: 0;
+    }
+
+    .review-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .review-list li {
+        padding: 8px 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .review-list li:last-child {
+        border-bottom: none; /* Убираем нижнюю границу для последнего элемента */
+    }
+{% endblock %}

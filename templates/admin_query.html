@@ -1,0 +1,60 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Запрос{% endblock %}
+{% block style %}
+.btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .error {
+            color: red;
+        }
+textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 1rem;
+        }
+
+{% endblock %}
+{% block content %}
+ <div class="container">
+        <h1>Выполнение SQL-запроса</h1>
+        <form method="POST">
+            <textarea name="query" placeholder="Введите SQL-запрос"></textarea>
+            <button type="submit" class="btn">Выполнить запрос</button>
+        </form>
+
+        {% if error %}
+            <div class="error">
+                <p>{{ error }}</p>
+            </div>
+        {% endif %}
+
+        {% if result %}
+            <div class="result">
+                <h3>Результат:</h3>
+                <pre>{{ result }}</pre>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

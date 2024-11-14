@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}Комнаты{% endblock %}
+{% block style %}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f4ff;
+  margin: 0;
+  padding: 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+th {
+  background-color: #1E5945; /* Зелёный цвет заголовка таблицы */
+  color: white;
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2; /* Чередующиеся цвета строк */
+}
+tr:hover {
+  background-color: #ddd; /* Цвет строки при наведении */
+}
+h1 {
+  color: #1E5945; /* Цвет заголовка */
+}
+
+/* Стили для кнопки */
+.bookbutton {
+  background: none;
+  color: #1E5945; /* Цвет текста кнопки в стиле заголовка */
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.bookbutton:hover {
+  color: #279b73; /* Более яркий зеленый цвет при наведении */
+  text-decoration: none;
+}
+{% endblock %}
+
+{% block content %}
+<h1>Список комнат</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Номер комнаты</th>
+                <th>Тип номера</th>
+                <th>Этаж</th>
+                <th>С телевизором</th>
+                <th>С Wi-Fi</th>
+                <th>С мини-баром</th>
+                <th>Цена за ночь</th>
+                <th>Вместимость</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+            <tr>
+                <td>{{ room.roomnumber }}</td>
+                <td>{{ room.roomtype }}</td>
+                <td>{{ room.floor }}</td>
+                <td>{{ 'Да' if room.hastv else 'Нет' }}</td>
+                <td>{{ 'Да' if room.haswifi else 'Нет' }}</td>
+                <td>{{ 'Да' if room.hasminibar else 'Нет' }}</td>
+                <td>{{ room.pricepernight }}</td>
+                <td>{{ room.capacity }}</td>
+                <td><a href="/rooms/book/{{room.roomnumber}}" class="bookbutton">Забронировать</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

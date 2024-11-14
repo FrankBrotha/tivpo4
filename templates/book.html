@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Забронировать{% endblock %}
+
+{% block content %}
+    <div class="booking-container">
+        <div class="booking-form">
+            <h1>Бронирование комнаты {{ roomnumber }}</h1>
+            <p>Стоимость за ночь: <strong>{{ price_per_night }} руб.</strong></p>
+
+            <form method="POST" action="{{ url_for('bookroom', roomnumber=roomnumber) }}">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    {{ form.startdate.label }}<br>
+                    {{ form.startdate(class="date-input", onchange="updateBookingInfo()", min=today) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.enddate.label }}<br>
+                    {{ form.enddate(class="date-input", onchange="updateBookingInfo()", min=today) }}
+                </div>
+
+                <h3>Количество ночей: <span id="nights-count">0</span></h3>
+                <h3>Итоговая стоимость: <span id="total-price">0</span> руб.</h3>
+
+                <p>{{ form.submit(class="btn btn-primary") }}</p>
+            </form>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flash-messages">
+                        {% for category, message in messages %}
+                            <li class="alert alert-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <div class="booking-info">
+            <h3>Информация о датах</h3>
+            <ul class="date-info">
+
+                {% for list in busylist %}
+                    <li>Эта комната забронирована с {{ list[0] }} по {{ list[1] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <script>
+     function updateBookingInfo() {
+            const startDateInput = document.querySelector('input[name="startdate"]');
+            const endDateInput = document.querySelector('input[name="enddate"]');
+            const pricePerNight = {{ price_per_night }}; // Получаем стоимость за ночь из шаблона
+
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+
+            // Проверяем, выбраны ли обе даты
+            if (startDate && endDate && endDate > startDate) {
+                const timeDiff = endDate - startDate; // Разница в миллисекундах
+                const nights = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Количество ночей
+                const totalPrice = nights * pricePerNight; // Общая стоимость
+
+                document.getElementById('nights-count').textContent = nights;
+                document.getElementById('total-price').textContent = totalPrice;
+            } else {
+                // Если даты не валидные, обнуляем значения
+                document.getElementById('nights-count').textContent = 0;
+                document.getElementById('total-price').textContent = 0;
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block style %}
+    .booking-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .booking-form, .booking-info {
+        width: 45%;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .btn {
+        background-color: #3B8A6C;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .btn:hover {
+        background-color: #4DAF7C;
+    }
+
+    .date-input {
+        padding: 8px;
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .booking-info h3 {
+        margin-top: 0;
+    }
+
+    .error-list, .flash-messages {
+        list-style: none;
+        padding: 0;
+        color: red;
+    }
+
+    .date-info {
+        list-style: none;
+        padding: 0;
+    }
+
+    .date-info li {
+        padding: 4px 0;
+    }
+
+    .alert-danger {
+        color: red;
+        font-size: 1rem;
+        text-align: center;
+        margin-top: -10px;
+        margin-bottom: 10px;
+    }
+
+    .alert-success  {
+        color: green;
+        font-size: 1rem;
+        text-align: center;
+        margin-top: -10px;
+        margin-bottom: 10px;
+    }
+{% endblock %}
